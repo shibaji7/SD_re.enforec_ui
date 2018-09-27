@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django import forms
+import datetime as dt
 from django.forms.formsets import BaseFormSet, formset_factory
 
 from bootstrap3.tests import TestForm
@@ -13,6 +14,17 @@ MEDIA_CHOICES = (
     ("Video", (("vhs", "VHS Tape"), ("dvd", "DVD"))),
     ("unknown", "Unknown"),
 )
+
+class LoginForm(forms.Form):
+    your_name = forms.CharField(label='Your name: ', max_length=100)
+    email_id = forms.EmailField(label='Email id: ', max_length=100)
+    affil = forms.CharField(label='Affiliation: ', max_length=100)
+    pass
+
+class QueryForm(forms.Form):
+    radar_code = forms.CharField(label='Radar Code: ', max_length=3, initial='fhe')
+    date = forms.DateField(initial=dt.date(2012,5,1),label='Date: ')
+    pass
 
 
 class ContactForm(TestForm):

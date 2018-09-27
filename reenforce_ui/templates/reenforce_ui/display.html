@@ -1,0 +1,22 @@
+{% extends 'reenforce_ui/base.html' %}
+
+{% load bootstrap3 %}
+{% load static %}
+{% block title %}
+    Query Form
+{% endblock %}
+
+{% block content %}
+	<div class="bs-callout bs-callout-info" id="callout-helper-context-color-specificity"> 
+		<h4>Using the parquet database</h4> <p>This <code>&lt;knowledge transaction&gt;</code> is going to registered under the email-id <code>&lt;{{email}}&gt;</code></p><br>
+	</div> 
+	<br>
+    <form role="form" method="post" class="form-inline">
+        {% csrf_token %}
+	{% for field in form %}
+		{% bootstrap_field field %}
+	{% endfor %}
+	<button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+{% endblock %}

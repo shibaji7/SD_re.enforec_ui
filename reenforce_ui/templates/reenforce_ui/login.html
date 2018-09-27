@@ -1,0 +1,22 @@
+{% extends 'reenforce_ui/base.html' %}
+
+{% load bootstrap3 %}
+
+{% load static %}
+{% block title %}
+<link rel="stylesheet" type="text/css" href="{% static 'docs.css' %}">
+	Registration From
+{% endblock %}
+
+{% block content %}
+
+<div class="bs-callout bs-callout-danger" id="callout-overview-not-both"> <h4>Session Details</h4> <p> User Needs to Register before providing knowledge to the system</p> </div>
+	<form role="form" method="post" class="form-inline">
+        {% csrf_token %}
+	{% for field in form %}
+		{% bootstrap_field field %}
+	{% endfor %}
+	<button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+{% endblock %}

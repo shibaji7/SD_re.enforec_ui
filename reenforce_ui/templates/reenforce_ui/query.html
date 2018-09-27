@@ -1,0 +1,89 @@
+{% extends 'reenforce_ui/base.html' %}
+
+{% load bootstrap3 %}
+{% load static %}
+{% block title %}
+    Query Form
+{% endblock %}
+
+{% block content %}
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<div class="bs-callout bs-callout-info" id="callout-helper-context-color-specificity"> 
+		<h4>Using the parquet database</h4> <p>This <code>&lt;knowledge transaction&gt;</code> is going to registered under the email-id <code>&lt;{{email}}&gt;</code></p><br>
+	</div> 
+	<br>
+	<input type="text" id="rad" radar="date" value="{{rad}}">
+	<input type="text" id="dt" name="date" value="{{dt}}">
+	<input type="hidden" id="email" name="email" value="{{email}}">
+	<button class="btn btn-primary" onclick="myFunction()">Submit</button>
+	
+	<div id="cnt" style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto"></div>
+     <script type='text/javascript'>
+	function myFunction() {
+		var urlq = "/data?rad={{rad}}&dt={{dt}}&email={{email}}"
+
+	    console.log("HI")
+	    alert(urlq);
+	    console.log("HI")
+	    console.log("HI")
+	    $.ajax({
+		type: "GET",
+		url: urlq,
+		success: function( data ){
+			console.log(data);
+			var dtime = data["time"]
+			var v = data["v"]
+			Highcharts.chart('cnt', {
+				chart: {
+					zoomType: 'xy',
+					height: '100%'
+					},
+				boost: {
+					useGPUTranslations: true,
+			    		usePreAllocated: true
+					},
+					
+				xAxis: {
+					min: 0,	
+			    		max: 100,
+			    		gridLineWidth: 1
+				    	},
+					
+				yAxis: {
+				// Renders faster when we don't have to compute min and max
+					min: 0,
+		       			max: 100,
+		   			minPadding: 0,
+		    			maxPadding: 0,
+			 		title: {
+						text: null
+			  			}
+				       },      
+				title: {
+					text: 'Scatter chart with 1 million points'
+				       },
+				legend: {
+					enabled: false
+	      				},
+					
+				series: [{
+					type: 'scatter',
+				      color: 'rgba(152,0,67,0.1)',
+				        data: ,
+					marker: {
+						radius: 0.1
+						},
+					tooltip: {
+						followPointer: false,
+				               	pointFormat: '[{point.x:.1f}, {point.y:.1f}]'
+					        }
+				           }]
+				});
+		contentType: "application/json"
+		});
+	}
+     </script>
+
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'reenforce_ui/bootstrap.html' %}
+{% load bootstrap3 %}
+{% load static %}
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+<link href="{% static 'css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet" media="screen">
+
+{% block bootstrap3_content %}
+    <nav class="navbar navbar-static-top navbar-inverse">
+	<div class="container-fluid">
+	<div class="navbar-header">
+	</div>
+	</div>
+    </nav>
+    <div class="container">
+        <h1>{% block title %}(no title){% endblock %}</h1>
+
+        <p>
+            <a href="{% url 'home' %}">home</a>
+            <a href="{% url 'formset_default' %}">formset</a>
+            <a href="{% url 'form_default' %}">form</a>
+            <a href="{% url 'form_by_field' %}">form_by_field</a>
+            <a href="{% url 'form_horizontal' %}">form_horizontal</a>
+            <a href="{% url 'form_inline' %}">form_inline</a>
+            <a href="{% url 'form_with_files' %}">form_with_files</a>
+            <a href="{% url 'pagination' %}">pagination</a>
+            <a href="{% url 'misc' %}">miscellaneous</a>
+        </p>
+
+        {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+
+        {% block content %}(no content){% endblock %}
+
+    </div>
+
+    <script type="text/javascript" src="{% static 'jquery.min.js' %}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datetimepicker.js' %}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{% static 'js/locales/bootstrap-datetimepicker.fr.js' %}" charset="UTF-8"></script>
+    <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+		            //language:  'fr',
+			   weekStart: 1, 
+			   todayBtn:  1,
+			   autoclose: 1,
+			   todayHighlight: 1,
+			   startView: 2,
+			   forceParse: 0,
+			   showMeridian: 1
+			   });
+	$('.form_date').datetimepicker({
+			//language:  'fr',
+			weekStart: 1,
+			todayBtn:  1,
+			autoclose: 1,
+			
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+			});
+	$('.form_time').datetimepicker({
+			//language:  'fr',
+			weekStart: 1,
+			todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 1,
+			minView: 0,
+			maxView: 1,
+			forceParse: 0
+			});
+    </script>
+
+{% endblock %}

@@ -14,8 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(BASE_DIR)
-
+#STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +52,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'reenforce_ui.urls'
+
+STATICFILES_DIRS = [
+            os.path.join(BASE_DIR, "static"),
+                '/var/www/static/',
+                ]
+
 
 TEMPLATES = [
     {
@@ -70,7 +76,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'reenforce_ui.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

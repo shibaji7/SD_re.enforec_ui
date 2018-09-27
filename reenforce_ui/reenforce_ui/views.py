@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 #from __future__ import unicode_literals
 from django.core.files.storage import default_storage
+import datetime as dt
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
+from django.http import HttpResponseRedirect,HttpResponse
+from django.shortcuts import render
+import json
 
-from .forms import ContactForm, FilesForm, ContactFormSet
+from .forms import ContactForm, FilesForm, ContactFormSet, LoginForm, QueryForm
+from .models import *
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
@@ -90,3 +95,49 @@ class PaginationView(TemplateView):
 
 class MiscView(TemplateView):
     template_name = "reenforce_ui/misc.html"
+
+
+##
+# Page Implementation
+##
+class LoginPageView(TemplateView):
+    template_name = "reenforce_ui/login.html"
+    form_class = LoginForm
+
+    def get_context_data(self, **kwargs):
+        context = super(LoginPageView, self).get_context_data(**kwargs)
+        messages.info(self.request, "Login Required")
+        return context
+
+    def get(self, request):
+        form = LoginForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            query = "?" + "name="+form.data['your_name'] + "&email="+ form.data['email_id'] +"&affil="+ form.data['affil']
+            return HttpResponseRedirect('/query'+query)
+        return render(request, self.template_name, {'form': form})
+
+class QueryPageView(TemplateView):
+    template_name = "reenforce_ui/query.html"
+    form_class = QueryForm
+    
+    def get(self, request):
+        try:
+            return render(request, self.template_name, { 'email': request.GET.get("email"), "dt":"2012-05-01", "rad":"fhe"})
+        except:
+            return HttpResponseRedirect('/')
+
+def get_data(request):
+    try:
+        email = request.GET.get("email")
+        date = dt.datetime.strptime(request.GET.get("dt"),"%Y-%m-%d")
+        radar = request.GET.get("rad")
+        df = get_one_day_data(date, rad=radar)
+        print(df.head())
+        data = df.to_json().replace('},{', '} {')
+        return HttpResponse(data, content_type='application/json')
+    except:
+        return HttpResponse("{message: System exception!!}", content_type='application/json')
