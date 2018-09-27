@@ -22,4 +22,5 @@ django-admin startproject reenforce_ui
 cd reenforce_ui 
 python manage.py startapp ui
 cd ..
+while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt
 echo "***********************************************************************************************************************"
